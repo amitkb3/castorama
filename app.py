@@ -2,15 +2,11 @@ import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from config import Config
+from models import db, Actor, Movie
 
-def create_app(test_config=None):
-  # create and configure the app
-  app = Flask(__name__)
-  CORS(app)
-
-  return app
-
-APP = create_app()
-
-if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8080, debug=True)
+# create and configure the app
+app = Flask(__name__)
+app.config.from_object(Config) # connect app to a local postgresql database
+db = SQLAlchemy(app) # initializing the instance with the app context
+CORS(app)
