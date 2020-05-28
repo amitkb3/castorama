@@ -112,21 +112,21 @@ def create_movie():
 
 # Endpoint route handler for PATCH request for actor
 @app.route('/actors/<int:actor_id>', methods=['PATCH'])
-def update_actor():
+def update_actor(actor_id):
   """
   Edit information for given actor id
   :return updated actor information
   """
-  actor = Actor.query.get(Actor.id == actor_id).one_or_none()
+  actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
   if actor is None:
     abort(404)
 
   body = request.get_json(request)
-  name = body.get('name')
-  age = body.get('age')
-  gender = body.get('gender')
+  name = body.get('name', None)
+  age = body.get('age', None)
+  gender = body.get('gender',None)
   if name is None or age is None or gender is None:
-    abort(400)
+    abort(400)  
   try:
     actor.name = name
     actor.age = age
@@ -144,12 +144,12 @@ def update_actor():
 
 # Endpoint route handler for PATCH request for movie
 @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-def update_movie():
+def update_movie(movie_id):
   """
   Edit information for given movie id
   :return updated movie information
   """
-  movie = Movie.query.get(Movie.id == movie_id).one_or_none()
+  movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
   if movie is None:
     abort(404)
 
