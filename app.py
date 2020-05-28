@@ -175,12 +175,12 @@ def update_movie(movie_id):
 
 # Endpoint route handler for DELETE request for actor
 @app.route('/actors/<int:actor_id>', methods=['DELETE'])
-def delete_actor():
+def delete_actor(actor_id):
   """
   Delete actor using actor id
   :return id of actor being deleted
   """
-  actor = Actor.query.get(Actor.id == actor_id).one_or_none()
+  actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
   if actor is None:
     abort(404)
   try:
@@ -195,12 +195,12 @@ def delete_actor():
 
 # Endpoint route handler for DELETE request for movie
 @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-def delete_movie():
+def delete_movie(movie_id):
   """
   Delete movie using movie id
   :return id of movie being deleted
   """
-  movie = Movie.query.get(Movie.id == movie_id).one_or_none()
+  movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
   if movie is None:
     abort(404)
   try:
