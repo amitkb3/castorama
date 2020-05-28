@@ -28,10 +28,10 @@ def get_actors():
   :return details of all actors
   """
   try:
-    results = Actor.query.all()
+    results = Actor.query.order_by(Actor.id).all()    
     if len(results) == 0:
       abort(404)
-    actors = [actor.format() for row in results]
+    actors = [row.format() for row in results]    
     return jsonify({
       'success': True,
       'actors': actors
@@ -50,7 +50,7 @@ def get_movies():
     results = Movie.query.all()
     if len(results) == 0:
       abort(404)
-    movies = [movie.format() for row in results]
+    movies = [row.format() for row in results]
     return jsonify({
       'success': True,
       'movies': movies
