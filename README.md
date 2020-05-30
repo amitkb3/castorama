@@ -1,7 +1,7 @@
 # Casting Agency Capstone Project
 
 This project is to fulfil Capstone project requirements for the Full-Stack Developer Nanodegree Program at Udacity.
-**Heroku link:** (https://cast-o-rama.herokuapp.com/)
+**Heroku link:** (https://castorama.herokuapp.com/)
 
 ## Project Background 
 The Casting Agency models a company that is responsible for creating movies and managing and assigning actors to those movies. 
