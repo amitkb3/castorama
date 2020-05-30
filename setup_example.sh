@@ -1,0 +1,8 @@
+export SECRET_KEY=""
+export DATABASE_URL=""
+export TEST_DATABASE_URL=""
+export AUTH0_DOMAIN=""
+export API_AUDIENCE=""
+export ASSISTANT_JWT=""
+export DIRECTOR_JWT=""
+export PRODUCER_JWT=""
