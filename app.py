@@ -101,7 +101,7 @@ def create_movie(payload):
   release_date = body.get('release_date')
   
   if title is None or release_date is None:
-    abort(400)
+    abort(400) 
   try:
     new_movie = Movie(title=title, release_date=release_date)
     new_movie.insert()
@@ -234,7 +234,7 @@ def unprocessable(error):
     "success": False,
     "error": 422,
     "message": "unprocessable"
-  })
+  }), 422
 
 @app.errorhandler(404)
 def not_found(error):
@@ -245,7 +245,7 @@ def not_found(error):
     "success": False,
     "error": 404,
     "message": "not found"
-  })
+  }), 404
 
 @app.errorhandler(400)
 def bad_request(error):
@@ -256,7 +256,7 @@ def bad_request(error):
     "success": False,
     "error": 400,
     "message": "bad request"
-  })
+  }), 400
     
 # AuthError exceptions raised by the @requires_auth(permission) decorator method
 @app.errorhandler(AuthError)

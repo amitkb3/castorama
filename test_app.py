@@ -113,13 +113,35 @@ class CastingAgencyTestCase(unittest.TestCase):
   # ----------------------------------------------------------------
 
   def test_no_auth_get_actors (self):
-    """Test actors GET endpoint"""
+    """Test actors GET endpoint without authorization"""
     res = self.client().get('/actors', headers={"Authorization": ()})
     data = json.loads(res.data)
 
     self.assertEqual(res.status_code, 401)
     self.assertFalse(data['success'])
-    
+  
+  def test_no_auth_get_movies (self):
+    """Test movies GET endpoint without authorization"""
+    res = self.client().get('/movies')
+    data = json.loads(res.data)
+
+    self.assertEqual(res.status_code, 401)
+    self.assertFalse(data['success'])
+  
+  def test_assistant_add_new_actor(self):
+    """Test actors POST endpoint with assistant role"""
+    res = self.client().post('/actors', json=self.new_actor, headers={"Authorization": (assistant_token)})
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 403)
+    self.assertFalse(data['success'], True)
+  
+  def test_no_data_add_new_movie(self):
+    """Test movie POST endpoint without data"""
+    res = self.client().post('/movies', json={}, headers={"Authorization": (producer_token)})
+    data = json.loads(res.data)    
+    self.assertEqual(res.status_code, 400)
+    self.assertFalse(data['success'], True)    
+      
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
