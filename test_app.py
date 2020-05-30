@@ -112,7 +112,7 @@ class CastingAgencyTestCase(unittest.TestCase):
   #  bad behavior tests
   # ----------------------------------------------------------------
 
-  def test_no_auth_get_actors (self):
+  def test_unauthorized_get_actors (self):
     """Test actors GET endpoint without authorization"""
     res = self.client().get('/actors', headers={"Authorization": ()})
     data = json.loads(res.data)
@@ -120,7 +120,7 @@ class CastingAgencyTestCase(unittest.TestCase):
     self.assertEqual(res.status_code, 401)
     self.assertFalse(data['success'])
   
-  def test_no_auth_get_movies (self):
+  def test_unauthorized_get_movies (self):
     """Test movies GET endpoint without authorization"""
     res = self.client().get('/movies')
     data = json.loads(res.data)
@@ -140,8 +140,38 @@ class CastingAgencyTestCase(unittest.TestCase):
     res = self.client().post('/movies', json={}, headers={"Authorization": (producer_token)})
     data = json.loads(res.data)    
     self.assertEqual(res.status_code, 400)
-    self.assertFalse(data['success'], True)    
-      
+    self.assertFalse(data['success'], True)
+
+  def test_unauthorized_edit_actor(self):
+    """Test actors PATCH endpoint with unauthorized assistant role"""
+    res = self.client().patch('/actors/1', json=self.new_actor, headers={"Authorization": (assistant_token)})
+    data = json.loads(res.data)    
+    self.assertEqual(res.status_code, 403)
+    self.assertFalse(data['success'], True)
+
+  def test_no_data_edit_movie(self):
+    """Test movie PATCH endpoint with no data"""
+    res = self.client().patch('/movies/1', json={}, headers={"Authorization": (producer_token)})
+    data = json.loads(res.data)    
+    self.assertEqual(res.status_code, 400)
+    self.assertFalse(data['success'], True)
+
+  def test_unauthorized_delete_actor(self):
+    """Test actor DELETE endpoint with unauthorized assistant role"""
+    res = self.client().post('/actors', json=self.new_actor, headers={"Authorization": (director_token)})
+    data = json.loads(res.data)
+    actor_id = data['actor']['id']
+    res_delete = self.client().delete(f'/actors/{actor_id}', headers={"Authorization": (assistant_token)})
+    data_delete = json.loads(res_delete.data)    
+    self.assertEqual(res_delete.status_code, 403)
+    self.assertFalse(data_delete['success'], True)
+
+  def test_no_data_delete_movie(self):
+    """Test movie DELETE endpoint"""        
+    res = self.client().delete('/movies/1000', headers={"Authorization": (producer_token)})
+    data = json.loads(res.data)    
+    self.assertEqual(res.status_code, 404)
+    self.assertFalse(data['success'], True)        
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
