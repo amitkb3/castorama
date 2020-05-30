@@ -7,6 +7,10 @@ from datetime import datetime
 from app import app
 from models import db, Actor, Movie
 
+assistant_token = "Bearer {}".format(os.environ.get('ASSISTANT_JWT'))
+director_token = "Bearer {}".format(os.environ.get('DIRECTOR_JWT'))
+producer_token = "Bearer {}".format(os.environ.get('PRODUCER_JWT'))
+
 class CastingAgencyTestCase(unittest.TestCase):
   """This class represents the casting agency test case"""
 

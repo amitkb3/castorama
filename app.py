@@ -24,7 +24,7 @@ def index():
 # Endpoint route handler for GET request for actor
 @app.route('/actors')
 @requires_auth('get:actor')
-def get_actors(jwt):
+def get_actors(payload):
   """
   Get details of all actors
   :return details of all actors
@@ -43,7 +43,8 @@ def get_actors(jwt):
 
 # Endpoint route handler for GET request for movies
 @app.route('/movies')
-def get_movies():
+@requires_auth('get:movies')
+def get_movies(payload):
   """
   Get details of all movies
   :return details of all movies
@@ -62,7 +63,8 @@ def get_movies():
 
 # Endpoint route handler for POST request for actor
 @app.route('/actors', methods=['POST'])
-def create_actor():
+@requires_auth('post:actor')
+def create_actor(payload):
   """
   Add new actor to database
   :return newly added actor
@@ -88,7 +90,8 @@ def create_actor():
 
 # Endpoint route handler for POST request for movie
 @app.route('/movies', methods=['POST'])
-def create_movie():
+@requires_auth('post:Movies')
+def create_movie(payload):
   """
   Add new movie to database
   :return newly added movie
@@ -114,7 +117,8 @@ def create_movie():
 
 # Endpoint route handler for PATCH request for actor
 @app.route('/actors/<int:actor_id>', methods=['PATCH'])
-def update_actor(actor_id):
+@requires_auth('patch:actor')
+def update_actor(payload, actor_id):
   """
   Edit information for given actor id
   :return updated actor information
@@ -146,7 +150,8 @@ def update_actor(actor_id):
 
 # Endpoint route handler for PATCH request for movie
 @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-def update_movie(movie_id):
+@requires_auth('patch:Movies')
+def update_movie(payload, movie_id):
   """
   Edit information for given movie id
   :return updated movie information
@@ -177,7 +182,8 @@ def update_movie(movie_id):
 
 # Endpoint route handler for DELETE request for actor
 @app.route('/actors/<int:actor_id>', methods=['DELETE'])
-def delete_actor(actor_id):
+@requires_auth('delete:actor')
+def delete_actor(payload, actor_id):
   """
   Delete actor using actor id
   :return id of actor being deleted
@@ -197,7 +203,8 @@ def delete_actor(actor_id):
 
 # Endpoint route handler for DELETE request for movie
 @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-def delete_movie(movie_id):
+@requires_auth('delete:movies')
+def delete_movie(payload, movie_id):
   """
   Delete movie using movie id
   :return id of movie being deleted
