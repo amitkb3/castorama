@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from config import Config
 from models import db, Actor, Movie
+from auth import AuthError, requires_auth
 
 # create and configure the app
 app = Flask(__name__)
@@ -22,7 +23,8 @@ def index():
 
 # Endpoint route handler for GET request for actor
 @app.route('/actors')
-def get_actors():
+@requires_auth('get:actor')
+def get_actors(jwt):
   """
   Get details of all actors
   :return details of all actors
@@ -249,6 +251,13 @@ def bad_request(error):
     "message": "bad request"
   })
     
-
+# AuthError exceptions raised by the @requires_auth(permission) decorator method
+@app.errorhandler(AuthError)
+def auth_error(auth_error):
+  return jsonify({
+    "success": False,
+    "error": auth_error.status_code,
+    "message": auth_error.error['description']
+  }), auth_error.status_code
     
   
