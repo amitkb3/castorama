@@ -108,7 +108,18 @@ class CastingAgencyTestCase(unittest.TestCase):
     self.assertEqual(res_delete.status_code, 200)
     self.assertEqual(data_delete['success'], True)
     self.assertEqual(data_delete['delete'], movie_id)
+  
+  #  bad behavior tests
+  # ----------------------------------------------------------------
 
+  def test_no_auth_get_actors (self):
+    """Test actors GET endpoint"""
+    res = self.client().get('/actors', headers={"Authorization": ()})
+    data = json.loads(res.data)
+
+    self.assertEqual(res.status_code, 401)
+    self.assertFalse(data['success'])
+    
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
